@@ -3,8 +3,8 @@ package kube_secrets_exporter
 import (
 	"github.com/blaubaer/kingpin"
 	v1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"strings"
+	"time"
 )
 
 type Filter struct {
@@ -38,7 +38,7 @@ func (instance *Filter) RegisterFlags(fg kingpin.FlagGroup) {
 
 func (instance Filter) Apply(secret *v1.Secret) error {
 	if instance.RemoveCreationTimestamp {
-		secret.ObjectMeta.CreationTimestamp = metav1.Now()
+		secret.ObjectMeta.CreationTimestamp.Time = time.Time{}
 	}
 	if instance.RemoveResourceVersion {
 		secret.ObjectMeta.ResourceVersion = ""

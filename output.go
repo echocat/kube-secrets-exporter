@@ -6,8 +6,9 @@ import (
 )
 
 type Output struct {
-	File   OutputGroupings
-	Format OutputFormat
+	File     OutputGroupings
+	Format   OutputFormat
+	Bundling OutputBundling
 }
 
 func (instance *Output) RegisterFlags(fg kingpin.FlagGroup) {
@@ -24,4 +25,8 @@ func (instance *Output) RegisterFlags(fg kingpin.FlagGroup) {
 		Default(OutputFormatYaml.String()).
 		Envar("FORMAT").
 		SetValue(&instance.Format)
+	g.Flag("bundling", fmt.Sprintf("How the output should be bundled within a group. Can be: %v", AllOutputBundlings.String())).
+		Default(OutputBundlingList.String()).
+		Envar("BUNDLING").
+		SetValue(&instance.Bundling)
 }
